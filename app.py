@@ -6,26 +6,6 @@ app = Flask(__name__)
 
 
 class CustomHTMLCalendar(HTMLCalendar):
-    PAGE_TEMPLATE = """
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Some Calendar</title>
-            <style>
-                .month-name{{
-                    writing-mode: tb-rl;
-                    transform: rotate(-180deg);
-                }}
-            </style>
-        </head>
-        <body>
-            {body}
-        </body>
-        </html>
-        """
-
     def formatweek(self, theweek, themonth, is_first_week):
         parts = ['<tr>']
 
@@ -64,21 +44,42 @@ class CustomHTMLCalendar(HTMLCalendar):
         parts.append('</table>')
         return ''.join(parts)
 
-    def format_years_page(self, year, years_around=0):
-        return self.PAGE_TEMPLATE.format(
-            body="".join(
-                self.formatyear(year, width=1)
-                for year in range(
-                    year - years_around,
-                    year + years_around + 1,
-                )
+    def format_years(self, year, years_around=0):
+        return "".join(
+            self.formatyear(year, width=1)
+            for year in range(
+                year - years_around,
+                year + years_around + 1,
             )
         )
 
 
+PAGE_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Some Calendar</title>
+    <style>
+        .month-name{{
+            writing-mode: tb-rl;
+            transform: rotate(-180deg);
+        }}
+    </style>
+</head>
+<body>
+    {body}
+</body>
+</html>
+"""
+
+
 @app.route('/')
 def index_view():
-    return CustomHTMLCalendar().format_years_page(
-        date.today().year,
-        1,
+    return PAGE_TEMPLATE.format(
+        body=CustomHTMLCalendar().format_years(
+            date.today().year,
+            1,
+        )
     )
