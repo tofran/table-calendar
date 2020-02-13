@@ -1,8 +1,4 @@
-from flask import Flask
 from calendar import HTMLCalendar, month_abbr
-from datetime import date
-
-app = Flask(__name__)
 
 
 class CustomHTMLCalendar(HTMLCalendar):
@@ -59,34 +55,3 @@ class CustomHTMLCalendar(HTMLCalendar):
                 year + years_around + 1,
             )
         )
-
-
-# FIXME: USe some kind of proper tmplating
-PAGE_TEMPLATE = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Some Calendar</title>
-    <style>
-        .month-name{{
-            transform: rotate(-90deg);
-        }}
-    </style>
-</head>
-<body>
-    {body}
-</body>
-</html>
-"""
-
-
-@app.route('/')
-def index_view():
-    return PAGE_TEMPLATE.format(
-        body=CustomHTMLCalendar().format_years(
-            date.today().year,
-            1,
-        )
-    )
