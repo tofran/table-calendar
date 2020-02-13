@@ -6,18 +6,24 @@ app = Flask(__name__)
 
 
 class CustomHTMLCalendar(HTMLCalendar):
-    def formatweek(self, theweek, themonth, is_first_week):
+    def format_week(self, week, month, is_first_week, number_of_weeks):
+        """
+        Return a complete week as a table row.
+        Does not override `formatweek` because it breaks its contract
+        """
+
         parts = ['<tr>']
 
         if is_first_week:
             parts.append(
-                '<td rowspan=6 class="month-name">{}</td>'.format(
-                    month_abbr[themonth]
+                '<td rowspan={} class="month-name">{}</td>'.format(
+                    number_of_weeks,
+                    month_abbr[month]
                 )
             )
 
         parts.append(''.join(
-            self.formatday(d, wd) for (d, wd) in theweek
+            self.formatday(d, wd) for (d, wd) in week
         ))
 
         parts.append('</tr>')
@@ -34,10 +40,11 @@ class CustomHTMLCalendar(HTMLCalendar):
 
         for i in range(0, len(month_matrix)):
             parts.append(
-                self.formatweek(
+                self.format_week(
                     month_matrix[i],
                     themonth,
-                    i == 0,
+                    is_first_week=i == 0,
+                    number_of_weeks=len(month_matrix),
                 )
             )
 
@@ -54,6 +61,7 @@ class CustomHTMLCalendar(HTMLCalendar):
         )
 
 
+# FIXME: USe some kind of proper tmplating
 PAGE_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="en">
