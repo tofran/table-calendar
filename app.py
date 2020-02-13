@@ -63,8 +63,7 @@ PAGE_TEMPLATE = """
     <title>Some Calendar</title>
     <style>
         .month-name{{
-            writing-mode: tb-rl;
-            transform: rotate(-180deg);
+            transform: rotate(-90deg);
         }}
     </style>
 </head>
