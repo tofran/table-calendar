@@ -2,6 +2,11 @@ from calendar import HTMLCalendar, month_abbr
 
 
 class CustomHTMLCalendar(HTMLCalendar):
+    def __init__(self, *args, show_months=True, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.show_months = show_months
+
     def format_week(self, week, month, is_first_week, number_of_weeks):
         """
         Return a complete week as a table row.
@@ -10,7 +15,7 @@ class CustomHTMLCalendar(HTMLCalendar):
 
         parts = ['<tr>']
 
-        if is_first_week:
+        if self.show_months and is_first_week:
             parts.append(
                 '<td rowspan={} class="month-name">{}</td>'.format(
                     number_of_weeks,

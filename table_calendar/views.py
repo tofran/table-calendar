@@ -20,6 +20,8 @@ def index_view():
     try:
         year = int(request.args.get('year', date.today().year))
         years_around = int(request.args.get('years_around', 0))
+        show_months = request.args.get('show_months', "true") == "true"
+
     except ValueError:
         abort(404)
 
@@ -33,8 +35,12 @@ def index_view():
     return template.render(
         year=year,
         max_years_around=MAX_YEARS_AROUND,
-        table=CustomHTMLCalendar().format_years(
-            year=year,
-            years_around=years_around,
+        table=(
+            CustomHTMLCalendar(
+                show_months=show_months,
+            ).format_years(
+                year=year,
+                years_around=years_around,
+            )
         )
     )
