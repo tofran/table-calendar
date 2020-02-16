@@ -20,7 +20,7 @@ def index_view():
     try:
         year = int(request.args.get('year', date.today().year))
         years_around = int(request.args.get('years_around', 0))
-        show_months = request.args.get('show_months', "true") == "true"
+        show_month_names = not request.args.get('show_month_names', "off") == "off"
 
     except ValueError:
         abort(404)
@@ -34,10 +34,13 @@ def index_view():
 
     return template.render(
         year=year,
+        years_around=years_around,
         max_years_around=MAX_YEARS_AROUND,
+        show_month_names=show_month_names,
+
         table=(
             CustomHTMLCalendar(
-                show_months=show_months,
+                show_month_names=show_month_names,
             ).format_years(
                 year=year,
                 years_around=years_around,

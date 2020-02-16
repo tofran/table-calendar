@@ -19,29 +19,43 @@
                 /* border: solid thin violet; */
                 padding: 0.2em;
             }
+
+            form{
+                margin-bottom: 1em;
+            }
         </style>
     </head>
 
     <body>
-        This is literally just the python's HTMLCalendar
-        with some customizations to make it easy to copy to spreadsheets.
+        <p>
+            This is literally just the python's
+            <a href="https://docs.python.org/3/library/calendar.html#calendar.HTMLCalendar">
+                HTMLCalendar
+            </a>
+            with some tweaks to make it easy to copy to spreadsheets.
+        </p>
 
         <form method="GET">
             <label>
                 Year
-                <input type="number" name="year" value="{{ year }}" onchange="this.form.submit()" />
+                <input type="number" name="year" value="{{ year }}" />
             </label>
 
             <label>
                 Years around
-                <select name="years_around" onchange="this.form.submit()">
+                <select name="years_around">
                     {% for i in range(max_years_around) %}
-                    <option value="{{ i }}">{{ i }}</option>
+                    <option value="{{ i }}" {{ i == years_around and "selected"}}>{{ i }}</option>
                     {% endfor %}
                 </select>
             </label>
 
-            {# <input type="submit" value=">" /> #}
+            <label>
+                Show month names
+                <input type="checkbox" name="show_month_names" value="true" {{ show_month_names and "checked"}}>
+            </label>
+
+            <input type="submit" value=">" />
         </form>
 
         {{ table | safe }}
