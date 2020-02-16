@@ -12,7 +12,7 @@ env = Environment(
     loader=PackageLoader("table_calendar", "templates"),
     autoescape=select_autoescape(['html', 'xml'])
 )
-template = env.get_template('index.html')
+template = env.get_template('index.html.j2')
 
 
 @app.route('/')
