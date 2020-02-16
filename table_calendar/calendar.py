@@ -1,11 +1,12 @@
-from flask import Flask
 from calendar import HTMLCalendar, month_abbr
-from datetime import date
-
-app = Flask(__name__)
 
 
 class CustomHTMLCalendar(HTMLCalendar):
+    def __init__(self, *args, show_month_names=True, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.show_month_names = show_month_names
+
     def format_week(self, week, month, is_first_week, number_of_weeks):
         """
         Return a complete week as a table row.
@@ -14,7 +15,7 @@ class CustomHTMLCalendar(HTMLCalendar):
 
         parts = ['<tr>']
 
-        if is_first_week:
+        if self.show_month_names and is_first_week:
             parts.append(
                 '<td rowspan={} class="month-name">{}</td>'.format(
                     number_of_weeks,
@@ -31,6 +32,11 @@ class CustomHTMLCalendar(HTMLCalendar):
         return ''.join(parts)
 
     def formatmonth(self, theyear, themonth, withyear=True):
+        """
+            Overrides formatmonth:
+                better syntax and calls format_week with its new signature (instead of formatweek)
+        """
+
         parts = []
         parts.append(
             '<table border="0" cellpadding="0" cellspacing="0" class="month">'
@@ -59,34 +65,3 @@ class CustomHTMLCalendar(HTMLCalendar):
                 year + years_around + 1,
             )
         )
-
-
-# FIXME: USe some kind of proper tmplating
-PAGE_TEMPLATE = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Some Calendar</title>
-    <style>
-        .month-name{{
-            transform: rotate(-90deg);
-        }}
-    </style>
-</head>
-<body>
-    {body}
-</body>
-</html>
-"""
-
-
-@app.route('/')
-def index_view():
-    return PAGE_TEMPLATE.format(
-        body=CustomHTMLCalendar().format_years(
-            date.today().year,
-            1,
-        )
-    )

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Table Calendar</title>
+
+        <style>
+            .month-name {
+                transform: rotate(-90deg);
+            }
+
+            th.year {
+                /* display: none; */
+            }
+
+            .month td:not(.month-name) {
+                /* border: solid thin violet; */
+                padding: 0.2em;
+            }
+
+            form{
+                margin-bottom: 1em;
+            }
+        </style>
+    </head>
+
+    <body>
+        <p>
+            This is literally just the python's
+            <a href="https://docs.python.org/3/library/calendar.html#calendar.HTMLCalendar">
+                HTMLCalendar
+            </a>
+            with some tweaks to make it easy to copy to spreadsheets.
+        </p>
+
+        <form method="GET">
+            <label>
+                Year
+                <input type="number" name="year" value="{{ year }}" />
+            </label>
+
+            <label>
+                Years around
+                <select name="years_around">
+                    {% for i in range(max_years_around) %}
+                    <option value="{{ i }}" {{ i == years_around and "selected"}}>{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>
+                Show month names
+                <input type="checkbox" name="show_month_names" value="true" {{ show_month_names and "checked"}}>
+            </label>
+
+            <input type="submit" value=">" />
+        </form>
+
+        {{ table | safe }}
+    </body>
+
+</html>
