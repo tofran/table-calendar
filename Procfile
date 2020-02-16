@@ -1,1 +1,1 @@
-web: gunicorn app:app --log-file -
+web: gunicorn table_calendar:app --log-file -
