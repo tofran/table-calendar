@@ -1,6 +1,6 @@
 from datetime import MAXYEAR, MINYEAR, date
 
-from flask import Flask, abort, redirect, request, url_for
+from flask import abort, request
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 from table_calendar.app import app
