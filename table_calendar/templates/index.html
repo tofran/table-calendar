@@ -10,10 +10,40 @@
             .month-name {
                 transform: rotate(-90deg);
             }
+
+            th.year {
+                /* display: none; */
+            }
+
+            .month td:not(.month-name) {
+                /* border: solid thin violet; */
+                padding: 0.2em;
+            }
         </style>
     </head>
 
     <body>
+        This is literally just the python's HTMLCalendar
+        with some customizations to make it easy to copy to spreadsheets.
+
+        <form method="GET">
+            <label>
+                Year
+                <input type="number" name="year" value="{{ year }}" onchange="this.form.submit()" />
+            </label>
+
+            <label>
+                Years around
+                <select name="years_around" onchange="this.form.submit()">
+                    {% for i in range(max_years_around) %}
+                    <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            {# <input type="submit" value=">" /> #}
+        </form>
+
         {{ table | safe }}
     </body>
 
