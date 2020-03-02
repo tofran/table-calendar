@@ -51,8 +51,8 @@
             </label>
 
             <label>
-                Show month names
-                <input type="checkbox" name="show_month_names" value="true" {{ show_month_names and "checked"}}>
+                Hide month names
+                <input type="checkbox" name="hide_month_names" value="true" {{ not show_month_names and "checked"}}>
             </label>
 
             <input type="submit" value=">" />

@@ -38,9 +38,9 @@ class CustomHTMLCalendar(HTMLCalendar):
         """
 
         parts = []
-        parts.append(
-            '<table border="0" cellpadding="0" cellspacing="0" class="month">'
-        )
+        # parts.append(
+        #     '<table border="0" cellpadding="0" cellspacing="0" class="month">'
+        # )
 
         month_matrix = self.monthdays2calendar(theyear, themonth)
 
@@ -54,11 +54,11 @@ class CustomHTMLCalendar(HTMLCalendar):
                 )
             )
 
-        parts.append('</table>')
+        # parts.append('</table>')
         return ''.join(parts)
 
     def format_years(self, year, years_around=0):
-        return "".join(
+        return ''.join(
             self.formatyear(year, width=1)
             for year in range(
                 year - years_around,
